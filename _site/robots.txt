@@ -1,1 +1,1 @@
-Sitemap: /flexible-jekyll/sitemap.xml
+Sitemap: /iyuke.github.com/sitemap.xml
