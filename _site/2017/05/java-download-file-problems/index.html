@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>记一次文件下载的尬途</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="记一次文件下载的尬途">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="这两天有个需求就是说将线上的信息通过计算后导入到 Excel 文件中，之后并可提供下载，下载后这个文件就不需要存在服务器上了，只要用户成功下载后，文件爱怎么样怎么样。">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2017/05/java-download-file-problems/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">记一次文件下载的尬途</h1>
+    <p></p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <p>这两天有个需求就是说将线上的信息通过计算后导入到 Excel 文件中，之后并可提供下载，下载后这个文件就不需要存在服务器上了，只要用户成功下载后，文件爱怎么样怎么样。</p>
+
+<p>好吧开始做吧。</p>
+
+<h2>Java 文件下载</h2>
+
+<p>初步打算做法如下：</p>
+
+<ol>
+<li>异步请求（需求所需，不是重点），通过 java 计算，将数据写入到 Excel 文件，并保存到服务器；</li>
+<li>然后下载文件；</li>
+</ol>
+
+<p>哦，除了计算，写入到有 47 列的 Excel 文件麻烦点，好像没什么了。。。开始码代码了。</p>
+
+<ol>
+<li>首先将文件写入到服务器的磁盘下；</li>
+<li><p>然后发起一个 http 请求从服务器上下载文件，简单代码如下：</p>
+<figure class="highlight"><pre><code class="language-java" data-lang="java">/**
+ * 文件下载
+ *
+ * @param uniqueId
+ * @param response
+ * @return
+ */
+@RequestMapping(value = &quot;/excels/{uniqueId}/download&quot;)
+public HttpServletResponse download(
+        @PathVariable(value = &quot;uniqueId&quot;) String uniqueId, HttpServletRequest request, HttpServletResponse response) {
+
+    // ...
+
+    File file = fileService.getFile(uniqueId);
+
+    try {
+        InputStream fis = new BufferedInputStream(new FileInputStream(file));
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        response.reset();
+        response.addHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot; + new String(file.getName()));
+        response.addHeader(&quot;Content-Length&quot;, &quot;&quot; + file.length());
+        OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+        response.setContentType(&quot;application/octet-stream&quot;);
+        toClient.write(buffer);
+        toClient.flush();
+        toClient.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    } finally {
+        file.delete();
+    }
+
+    return response;
+}
+</code></pre></figure></li>
+<li><p>客户端发起一个 get 请求就可以将文件下载下来了，在日常环境和预发环境表现都是正常的；</p></li>
+<li><p>然后我就正式上线了，结果出问题了，有时候无法下载成功。</p></li>
+</ol>
+
+<h2>无法成功下载文件</h2>
+
+<p>那什么问题呢？</p>
+
+<p>突然意识到，日常和预发环境都是一台机器，那么无论怎么读写文件都是在同一台机器上进行操作，而正式环境有两台机器，挂在一个 vip 下，那么我在请求计算数据的时候，会将 Excel 文件写入到一台服务器 A 中，那么第二次请求下载的时候，nginx 不一定会将请求转到写入文件的机器 A 上，可能是 A，也可能是 B，当请求到了B 服务器上，那么查找文件就自然不存在了。</p>
+
+<p>考虑到这个文件的量不大，每个文件大的也就几 M，没有必要再引入文件服务器上，为了减少不必要的依赖，维护，那么就用 mysql 了，反正两台服务器访问的数据都是一个。</p>
+
+<p>然后新建一个有关文件的表 t_files，大概表结果如下：</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">id, unique_id, name, content, create_time, create_by, deleted, update_time, udpate_by
+</code></pre></figure>
+<p>那么在 mysql 里存储文件的时候又不能存储文件的路径，因为不一定文件会存在哪台机器上，还会出现那个问题，所以就将文件 Base64 编码后写入到 content 中，下次读取文件的时候再将 content decode 一下写入到文件中，这里 content 字段采用 TEXT 类型，那事实证明是可行的，但是我发现有的文件在下载后，无法正常打开，损坏了，原因是 TEXT 类型的字段存储长度过小，无法完整的存下信息。</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">LANGTEXT：4294967295/3=1431655765个汉字，14亿，存储空间占用：4294967295/1024/1024/1024=4G的数据；
+MEDIUMTEXT:16777215/3=5592405个汉字，560万，存储空间占用：16777215/1024/1024=16M的数据；
+TEXT：65535/3=21845个汉字，约20000，存储空间占用：65535/1024=64K的数据；
+</code></pre></figure>
+<p>因为计算后的生成的文件之前也说过不会有超过 10M 的，就选择了 MEDIUMTEXT 类型，恩，就这样解决了刚刚的那个问题。</p>
+
+<p>那在写代码的时候出现了一个问题，问题是，当我将文件 Base64 编码后，可以成功写入数据库，这里查找 t_files 我是根据 unique_id 作为主键进行查找的，但是我无法获取 content 内容，其他信息正常，只有 content 为空。我是使用 mybatis 作为 ORM 进行查询的，然后查看对应的 mapper.xml 文件后发现，对于 TEXT 类型的字段，和其他 VARCHAR 类型的字段是有区别的，mybatis 自动对 TEXT 类型进行了特殊处理，无法查找。解决办法如下：</p>
+
+<ol>
+<li>可以自己手写对应的 mapper 文件，生成对应的 SQL 语句；</li>
+<li>通过主键 id 进行查询 selectByPrimaryKey(id) 就可以将信息全部查到，这里我先通过 unique_id 将对象查出，然后又根据 id 重新查找了一次，解决了上面的问题。</li>
+</ol>
+
+<p>好了，正式上线了。</p>
+
+<p><strong>哦，是时候找个机会学习下集群、分布式的问题了。</strong></p>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2017/05/java-download-file-problems/" data-title=记一次文件下载的尬途 data-url=https://wnglmng.com/2017/05/java-download-file-problems/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+        
+            <a href="/2017/03/spring-boot-Introduction/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">Spring Boot 参考指南之入门指南</div>
+                        <div class="card-description card-description--clamp-0">
+                            Spring Boot 介绍这个段落提供 Spring Boot 参考指南的简要综述。将它视作其他部分介绍的指引。你可以顺次阅读本参考指南，或者跳过你不感兴趣的部分。1.关于资料Spring Boot 参考指南现提供 html，pdf 以及 epub 版本，最新版可以访问 http://docs.spring.io/spring-boot/docs/current/reference。这些资...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww1.sinaimg.cn/mw690/906cb9dbly1fdoq1o4qe1j20q00d4qed"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2017-03-15</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>浏览器中异步打开新标签页</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="浏览器中异步打开新标签页">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="最近在做项目，需要异步获取服务器端返回的URL，然后在新的标签页中打开该URL（不要问我为什么不在当前页面加载，因为种种原因，用户不希望这个页面消失，只想在新标签页中处理工作，和我们的需求有很大关系）。然后发现各种问题，有的浏览器可以，但是有的浏览器被拦截，甚至有的浏览器既不被拦截又一点反应没有。">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2016/08/async-open-new-tab-in-brower/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">浏览器中异步打开新标签页</h1>
+    <p>async open a new tab in brower</p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <p>最近在做项目，需要异步获取服务器端返回的URL，然后在新的标签页中打开该URL（不要问我为什么不在当前页面加载，因为种种原因，用户不希望这个页面消失，只想在新标签页中处理工作，和我们的需求有很大关系）。然后发现各种问题，有的浏览器可以，但是有的浏览器被拦截，甚至有的浏览器既不被拦截又一点反应没有。</p>
+
+<p>主要原因是，当 window.open 为用户触发事件内部或者加载时，不会被拦截，一旦将弹出代码移动到 ajax 或者一段异步代码内部，马上就出现被拦截的表现了，因为浏览器认为这是不安全的行为，默认都会被拦截。</p>
+
+<p>在网上找了些资料，多多少少会有些问题，可能是我的姿势不对。</p>
+
+<p>最后实现代码如下：</p>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript">// open a new blank tab
+var createNewInterviewTab = window.open(&#39;about:blank&#39;, &#39;_blank&#39;);
+$.ajax({
+    // ...
+}).done(function(result) {
+    if (result.status == 0) {
+        var url = result.data.redirect;
+        // async open a new tab
+        setTimeout(function() {
+            createNewInterviewTab.location.href = url;
+        }, 100);
+    } else {
+        // close the blank tab
+        createNewInterviewTab.close();
+    }
+});
+</code></pre></figure>
+<p>到这里就结束了，就酱。</p>
+
+<p><strong>参考</strong></p>
+
+<ul>
+<li><a href="http://itindex.net/detail/52877-window.open-%E6%B5%8F%E8%A7%88%E5%99%A8">window.open被浏览器拦截的解决方案</a></li>
+</ul>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2016/08/async-open-new-tab-in-brower/" data-title=浏览器中异步打开新标签页 data-url=https://wnglmng.com/2016/08/async-open-new-tab-in-brower/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+            <a href="/2016/07/codeigniter-hook/">
+                <div class="card card--article not-visible">
+                    <div class="card-body">
+                        <div class="card-title card-title--articleIfNoImage">CodeIgniter 钩子</div>
+                        <p class="card-description card-description--clamp-14">“CodeIgniter Hooks”</p>
+                        <p class="card-description card-article-preview">
+                            简介CodeIgniter 在启动的过程中，可以在某个地方让它自动的执行自己编写的函数，完成一个特定的功能，或者说成是脚本，这个时候就需要 CodeIgniter 中的钩子扩展。突然觉得和 Spring 中的 AOP 面向切面（Aspect）很类似，就是说在系统执行的什么时候会自动的执行其他功能代码，例如Before(前) 、After-returning(返回后) 、After-throwing(抛出后)、Introduction(引入)。启用钩子在 application/config/config.php 文件里找到 $config[&#39;enable_hooks&#39;] = FALSE,将 FALSE 改 TRUE ，启动钩子。$config[&#39;enable_h...
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-07-10</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        
+        
+        
+
+        
+        
+        
+        
+            <a href="/2016/12/shadowsocks-with-linux/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">Shadowsocks 搭建 VPN</div>
+                        <div class="card-description card-description--clamp-0">
+                            ## Shadowsocks 服务端安装### Debian / Ubuntu 安装```bash$ apt-get install python-pip$ pip install shadowsocks```### CentOS 安装```bash$ yum install python-setuptools && easy_install pip$ pip install shadows...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww4.sinaimg.cn/mw690/906cb9dbgw1fb1y5flu77j20b806qmxg.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-12-24</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

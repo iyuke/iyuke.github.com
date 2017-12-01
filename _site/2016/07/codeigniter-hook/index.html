@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>CodeIgniter 钩子</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="CodeIgniter 钩子">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="简介">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2016/07/codeigniter-hook/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">CodeIgniter 钩子</h1>
+    <p>CodeIgniter Hooks</p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <h2>简介</h2>
+
+<p>CodeIgniter 在启动的过程中，可以在某个地方让它自动的执行自己编写的函数，完成一个特定的功能，或者说成是脚本，这个时候就需要 CodeIgniter 中的钩子扩展。突然觉得和 Spring 中的 AOP 面向切面（Aspect）很类似，就是说在系统执行的什么时候会自动的执行其他功能代码，例如Before(前) 、
+After-returning(返回后) 、After-throwing(抛出后)、Introduction(引入)。</p>
+
+<h2>启用钩子</h2>
+
+<ol>
+<li><p>在 application/config/config.php 文件里找到 $config[&#39;enable_hooks&#39;] = FALSE,将 FALSE 改 TRUE ，启动钩子。</p>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">$config[&#39;enable_hooks&#39;] = TRUE;
+</code></pre></figure></li>
+<li><p>在 application/hooks 文件夹(没有自已新建)新建一任意文件名 TestHook.php 。</p>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">&lt;?php
+class TestHook{
+    function display(){
+          echo &quot;Hello Hook&quot;;
+    }
+}
+?&gt;
+</code></pre></figure></li>
+<li><p>回到 application/config/hooks.php 里添加几行代码如下：</p>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">$hook[&#39;pre_controller&#39;] = array(
+    &#39;class&#39;    =&gt; &#39;MyClass&#39;,
+    &#39;function&#39; =&gt; &#39;Myfunction&#39;,
+    &#39;filename&#39; =&gt; &#39;Myclass.php&#39;,
+    &#39;filepath&#39; =&gt; &#39;hooks&#39;,
+    &#39;params&#39;   =&gt; array(&#39;beer&#39;, &#39;wine&#39;, &#39;snacks&#39;)
+);
+// 注意
+// 这里可以同时定义多个钩子，只需要另起一段编写类似的代码即可。
+// 只需要将钩子数组变成二维数组即可。
+</code></pre></figure></li>
+</ol>
+
+<p>Demo:</p>
+
+<blockquote>
+<figure class="highlight"><pre><code class="language-php" data-lang="php">// TestHook.php
+&lt;?php
+class TestHook{
+    function display(){
+          echo &quot;Hello Hook&quot;;
+    }
+}
+?&gt;
+</code></pre></figure><figure class="highlight"><pre><code class="language-php" data-lang="php">// application/config/hooks.php
+$hook[&#39;post_controller&#39;][] = array(
+    &#39;class&#39; =&gt; &#39;TestHook&#39;,
+    &#39;function&#39; =&gt; &#39;display&#39;,
+    &#39;filename&#39; =&gt; &#39;TestHook.php&#39;,
+    &#39;filepath&#39; =&gt; &#39;hooks&#39;,
+    &#39;params&#39;   =&gt; array()
+);
+</code></pre></figure></blockquote>
+
+<p><strong>注意：</strong></p>
+
+<ul>
+<li>class 你希望调用的类名，如果你更喜欢使用过程式的函数的话，这一项可以留空。</li>
+<li>function 你希望调用的方法或函数的名称。</li>
+<li>filename 包含你的类或函数的文件名。</li>
+<li>filepath 包含你的脚本文件的目录名。 注意： 你的脚本必须放在 application/ 目录里面，所以 filepath 是相对 application/ 目录的路径，举例来说，如果你的脚本位于 application/hooks/ ，那么 filepath 可以简单的设置为 &#39;hooks&#39; ，如果你的脚本位于 application/hooks/utilities/ ， 那么 filepath 可以设置为 &#39;hooks/utilities&#39; ，路径后面不用加斜线。</li>
+<li>params 你希望传递给你脚本的任何参数，可选。</li>
+</ul>
+
+<h2>挂钩点</h2>
+
+<ul>
+<li>pre_system 在系统执行的早期调用，这个时候只有 基准测试类 和 钩子类 被加载了， 还没有执行到路由或其他的流程。</li>
+<li>pre_controller 在你的控制器调用之前执行，所有的基础类都已加载，路由和安全检查也已经完成。</li>
+<li>post_controller_constructor 在你的控制器实例化之后立即执行，控制器的任何方法都还尚未调用。</li>
+<li>post_controller 在你的控制器完全运行结束时执行。</li>
+<li>display_override 覆盖 _display() 方法，该方法用于在系统执行结束时向浏览器发送最终的页面结果。 这可以让你有自己的显示页面的方法。注意你可能需要使用 $this-&gt;CI =&amp; get_instance() 方法来获取 CI 超级对象，以及使用 $this-&gt;CI-&gt;output-&gt;get_output() 方法来 获取最终的显示数据。</li>
+<li>cache_override 使用你自己的方法来替代 输出类 中的 _display_cache() 方法，这让你有自己的缓存显示机制。</li>
+<li>post_system 在最终的页面发送到浏览器之后、在系统的最后期被调用。</li>
+</ul>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2016/07/codeigniter-hook/" data-title=CodeIgniter 钩子 data-url=https://wnglmng.com/2016/07/codeigniter-hook/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+        
+            <a href="/2016/06/remote-host-identification-has-changed/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">REMOTE HOST IDENTIFICATION HAS CHANGED</div>
+                        <div class="card-description card-description--clamp-0">
+                            $ ssh 45.127.97.64@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@IT...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww3.sinaimg.cn/large/906cb9dbgw1fb2xyzt1mij20wk0duwmv.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-06-19</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+        
+        
+        
+            <a href="/2016/08/async-open-new-tab-in-brower/">
+                <div class="card card--article not-visible">
+                    <div class="card-body">
+                        <div class="card-title card-title--articleIfNoImage">浏览器中异步打开新标签页</div>
+                        <p class="card-description card-description--clamp-14">“async open a new tab in brower”</p>
+                        <p class="card-description card-article-preview">
+                            最近在做项目，需要异步获取服务器端返回的URL，然后在新的标签页中打开该URL（不要问我为什么不在当前页面加载，因为种种原因，用户不希望这个页面消失，只想在新标签页中处理工作，和我们的需求有很大关系）。然后发现各种问题，有的浏览器可以，但是有的浏览器被拦截，甚至有的浏览器既不被拦截又一点反应没有。主要原因是，当 window.open 为用户触发事件内部或者加载时，不会被拦截，一旦将弹出代码移动到 ajax 或者一段异步代码内部，马上就出现被拦截的表现了，因为浏览器认为这是不安全的行为，默认都会被拦截。在网上找了些资料，多多少少会有些问题，可能是我的姿势不对。最后实现代码如下：```javascript// open a new blank tabvar createNewInterv...
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-08-28</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

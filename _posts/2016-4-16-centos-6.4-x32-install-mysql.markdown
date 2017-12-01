@@ -1,0 +1,100 @@
+---
+layout:     	post
+title:      	CentOS 6.4 x32 安装 MySQL
+subtitle:   
+card-image: 	https://ww4.sinaimg.cn/mw690/906cb9dbgw1fayosx67eoj20we0f4juo.jpg
+date:       	2016-4-16 23:35:00
+tags:      		code
+post-card-type: image
+---
+
+## MySQL安装
+
+这里介绍以 CentOS6.4 X36 安装为例。
+
+1. 检测系统是否自带安装 mysql；
+
+	```sql
+	yum list installed | grep mysql
+	```
+2. 删除系统自带的 mysql 及其依赖命令；
+
+	```sql
+	yum -y remove mysql-libs.x86_64
+	```
+3. 给 CentOS 添加 rpm 源，并且选择较新的源命令；
+
+	```sql
+	wget dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
+	yum localinstall mysql-community-release-el6-5.noarch.rpm
+	yum repolist all | grep mysql
+	yum-config-manager --disable mysql55-community
+	yum-config-manager --disable mysql56-community
+	yum-config-manager --enable mysql57-community-dmr
+	yum repolist enabled | grep mysql
+	```
+
+4. 安装 mysql 服务器命令；
+
+	```sql
+	yum install mysql-community-server
+	```
+
+5. 启动 mysql 命令；
+
+	```sql
+	service mysqld start
+	```
+
+6. 查看 mysql 是否自启动，并且设置开启自启动命令；
+
+	```sql
+	chkconfig --list | grep mysqld
+	chkconfig mysqld on
+	```
+
+7. mysql 安全设置命令；
+
+	```sql
+	mysql_secure_installation
+	```
+
+## 问题
+
+#### 登录时提示密码错误
+
+```sql
+[root@cloud aii-blog]# mysql_secure_installation
+
+Securing the MySQL server deployment.
+
+Enter password for user root:
+Error: Access denied for user 'root'@'localhost' (using password: NO)
+```
+
+解决方法
+
+1. 跳过密码登录，修改 /etc/my.cnf 文件，在文件末尾添加下面代码，
+
+	```sql
+	skip-grant-tables
+	```
+2. 重启服务；
+
+	```sql
+	service mysqld restart
+	```
+3. 重新连接，并修改密码；
+
+	```sql
+	mysql -uroot -p // 连接数据库
+	sql> use mysql; // 使用 mysql
+	sql> update user set authentication_string=password('newpassword') where user='root'; // 修改 root 用户密码
+	sql> exit; // 退出 mysql
+	service mysqld reatart // 重启服务
+	```
+4. 现在就可以使用新的密码登录了。
+
+#### 远程客户端不能连接数据库
+
+详情可以参考 [Cannot change root access in MySQL to %](http://dba.stackexchange.com/questions/45806/cannot-change-root-access-in-mysql-to) 。

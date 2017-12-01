@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>Shadowsocks 搭建 VPN</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Shadowsocks 搭建 VPN">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="Shadowsocks 服务端安装">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2016/12/shadowsocks-with-linux/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">Shadowsocks 搭建 VPN</h1>
+    <p>set up vpn with shadowsocks at linux</p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <h2>Shadowsocks 服务端安装</h2>
+
+<h3>Debian / Ubuntu 安装</h3>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">$ apt-get install python-pip
+$ pip install shadowsocks
+</code></pre></figure>
+<h3>CentOS 安装</h3>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">$ yum install python-setuptools &amp;&amp; easy_install pip
+$ pip install shadowsocks
+</code></pre></figure>
+<h2>Shadowsocks 配置</h2>
+
+<p><code>vim /etc/shadowsocks.json</code> 创建 <em>/etc/shadowsocks.json</em> 文件，添加如下内容</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">{
+    &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_port&quot;:8388,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;your_password&quot;,
+    &quot;timeout&quot;:600,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;auth&quot;: true
+}
+</code></pre></figure>
+<h2>Shadowsocks 命令</h2>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">$ ssserver -c /etc/shadowsocks.json -d start // 启动
+$ ssserver -c /etc/shadowsocks.json -d restart // 重启
+$ ssserver -c /etc/shadowsocks.json -d stop // 关闭
+</code></pre></figure>
+<p>最后记得开发 8388 端口</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">$ /sbin/iptables -I INPUT -p tcp --dport 8388 -j ACCEPT
+</code></pre></figure>
+<h2>客户端配置</h2>
+
+<p>到 <a href="https://shadowsocks.org/en/download/clients.html">https://shadowsocks.org/en/download/clients.html</a> 下载客户端，然后输入你的配置即可</p>
+
+<p><img src="https://ww3.sinaimg.cn/mw690/906cb9dbjw1fb1wtxe06kj20sg0hyq4w.jpg" alt=""></p>
+
+<p><strong>注意</strong> 如果希望服务一直在后台中跑下去，可以在 screen 中执行以上操作，这样即使关闭 SSH 连接，服务也会一直在服务器中运行。</p>
+
+<h2>Iterm 代理</h2>
+
+<ul>
+<li><a href="https://segmentfault.com/a/1190000004607285">使用shadowsocks及 ProxyChains-NG 实现终端(iterm)下代理</a></li>
+<li><a href="http://www.jianshu.com/p/bee7c63c3d50">MacOS 让终端命令使用全局代理</a></li>
+</ul>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2016/12/shadowsocks-with-linux/" data-title=Shadowsocks 搭建 VPN data-url=https://wnglmng.com/2016/12/shadowsocks-with-linux/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+            <a href="/2016/08/async-open-new-tab-in-brower/">
+                <div class="card card--article not-visible">
+                    <div class="card-body">
+                        <div class="card-title card-title--articleIfNoImage">浏览器中异步打开新标签页</div>
+                        <p class="card-description card-description--clamp-14">“async open a new tab in brower”</p>
+                        <p class="card-description card-article-preview">
+                            最近在做项目，需要异步获取服务器端返回的URL，然后在新的标签页中打开该URL（不要问我为什么不在当前页面加载，因为种种原因，用户不希望这个页面消失，只想在新标签页中处理工作，和我们的需求有很大关系）。然后发现各种问题，有的浏览器可以，但是有的浏览器被拦截，甚至有的浏览器既不被拦截又一点反应没有。主要原因是，当 window.open 为用户触发事件内部或者加载时，不会被拦截，一旦将弹出代码移动到 ajax 或者一段异步代码内部，马上就出现被拦截的表现了，因为浏览器认为这是不安全的行为，默认都会被拦截。在网上找了些资料，多多少少会有些问题，可能是我的姿势不对。最后实现代码如下：// open a new blank tabvar createNewInterviewTab = wind...
+                        </p>
+                        <p></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-08-28</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        
+        
+        
+
+        
+        
+        
+        
+            <a href="/2016/12/nginx-config-https/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">使用免费 SSL 证书 Let's Encrypt(certbot) 搭建 Https</div>
+                        <div class="card-description card-description--clamp-0">
+                            Let's Encrypt 是很火的一个免费 SSL 证书发行项目，自动化发行证书，证书有 90 天的有效期。适合个人使用或者临时使用，不用再忍受自签发证书不受浏览器信赖的提示。去年 VPS 侦探曾经说过 Let's Encrypt 的使用教程，但是 Let's Encrypt 已经发布了新的工具 certbot，虽然是新的工具，但是生成证书的使用方法和参数是基本一致的，证书续期更简单了。但...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ws1.sinaimg.cn/mw690/906cb9dbgw1fb57wb1qh4j21ao0iwdik.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-12-26</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

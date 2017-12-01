@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>Ajax 跨域访问</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Ajax 跨域访问">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="问题现象">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2016/05/ajax-cant-access-origin-resource/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">Ajax 跨域访问</h1>
+    <p>ajax access origin resource</p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <h2>问题现象</h2>
+
+<p>当出现跨域访问的时候， ajax 通常会报类似如下错误：</p>
+
+<blockquote>
+<p>XMLHttpRequest cannot load <a href="http://localhost:8000/simple/api/users/me/login">http://localhost:8000/simple/api/users/me/login</a>. Response to preflight request doesn&#39;t pass access control check: No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;<a href="http://localhost:8080">http://localhost:8080</a>&#39; is therefore not allowed access.</p>
+</blockquote>
+
+<h2>解决办法</h2>
+
+<h3>Tomcat设置允许跨域访问</h3>
+
+<p>这里描述以Tomcat为Web服务器情况下的解决办法，在JavaWeb项目中WEB-INF文件夹下的web.xml中加入如下配置即可。</p>
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">&lt;!-- cors filter --&gt;
+&lt;filter&gt;
+    &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.apache.catalina.filters.CorsFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;CorsFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre></figure>
+<p><strong>注意:</strong> org.apache.catalina.filters.CorsFilter 下面有好几个配置选项，上面没有配置时就采用系统的默认配置。在实际生产环境要根据需要进行配置来提高安全性。比如 cors.allowed.origins 配置入汛访问的源地址，默认为所有，即 * 。此外还有 fors.allowed.methods ，cors.allowed.headers 等等。具体配置细节可以参考 <a href="https://tomcat.apache.org/tomcat-7.0-doc/config/filter.html">https://tomcat.apache.org/tomcat-7.0-doc/config/filter.html</a> 中 CORS Filter 章节。</p>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2016/05/ajax-cant-access-origin-resource/" data-title=Ajax 跨域访问 data-url=https://wnglmng.com/2016/05/ajax-cant-access-origin-resource/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+        
+            <a href="/2016/04/centos-6.4-x32-install-mysql/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">CentOS 6.4 x32 安装 MySQL</div>
+                        <div class="card-description card-description--clamp-0">
+                            MySQL安装这里介绍以 CentOS6.4 X36 安装为例。检测系统是否自带安装 mysql；yum list installed | grep mysql删除系统自带的 mysql 及其依赖命令；yum -y remove mysql-libs.x86_64给 CentOS 添加 rpm 源，并且选择较新的源命令；wget dev.mysql.com/get/mysql-communi...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww4.sinaimg.cn/mw690/906cb9dbgw1fayosx67eoj20we0f4juo.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-04-17</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+        
+        
+        
+        
+            <a href="/2016/06/css3-waterfall-layout/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">CSS3多列布局实现瀑布流</div>
+                        <div class="card-description card-description--clamp-0">
+                            HTML代码如下：```html```CSS代码如下：```css		.container {            padding : 20px;            margin: 20px;            border-bottom: 1px solid #EEEEEE;            -webkit-column-count: 5;            -webk...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww1.sinaimg.cn/mw690/906cb9dbgw1fayoq6tylaj20ue0ggn35.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-06-16</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

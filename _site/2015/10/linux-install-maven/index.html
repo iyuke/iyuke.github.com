@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>Linux下安装Maven</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Linux下安装Maven">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="简介">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2015/10/linux-install-maven/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">Linux下安装Maven</h1>
+    <p>linux install maven</p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <h2>简介</h2>
+
+<p>Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。曾是Jakarta项目的子项目，现为独立Apache项目。</p>
+
+<h2>准备</h2>
+
+<p><a href="http://maven.apache.org">Maven</a>（这里以最新的3.3版本为例。注意：如果使用3.3版本，那么你的JDK版本最低应为1.7，这些可以在官方网站中看到。）</p>
+
+<h2>开始</h2>
+
+<p>首先下载Maven3.3.3，你可以从官网直接下载，或在终端中使用命令下载，解压，然后移动到你想要安装的目录当中，例如我是移动到了/home/sunmoon/wnglmng/dev这个目录下：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sunmoon@sunmoon-io:~$ wget http://apache.fayea.com/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz
+sunmoon@sunmoon-io:~$ tar vxf apache-maven-3.3.3-bin.tar.gz
+sunmoon@sunmoon-io:~$ mv apache-maven-3.3.3 /home/sunmoon/wnglmng/dev
+</code></pre></figure>
+<p>然后，用gedit打开/etc/profile文件：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sunmoon@sunmoon-io:~$ sudo gedit /etc/profile
+</code></pre></figure>
+<p>在编辑器中末尾添加如下代码：</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">MAVEN_HOME=/home/sunmoon/wnglmng/dev/apache-maven-3.3.3
+export MAVEN_HOME
+export PATH=${PATH}:${MAVEN_HOME}/bin
+</code></pre></figure>
+<p>然后ctrl+s保存，这个时候环境变量并未生效，在终端执行如下命令即可生效：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sunmoon@sunmoon-io:~$ source /etc/profile
+</code></pre></figure>
+<p>检查是否生效，如果打印下面信息那么就是成功了：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sunmoon@sunmoon-io:~$ mvn -v
+Apache Maven 3.3.3 (7994120775791599e205a5524ec3e0dfe41d4a06; 2015-04-22T19:57:37+08:00)
+Maven home: /home/sunmoon/wnglmng/dev/apache-maven-3.3.3
+Java version: 1.7.0_79, vendor: Oracle Corporation
+Java home: /usr/lib/jvm/java-7-openjdk-i386/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: &quot;linux&quot;, version: &quot;3.13.0-66-generic&quot;, arch: &quot;i386&quot;, family: &quot;unix&quot;
+</code></pre></figure>
+<p>到这里我们就可简单修改一下Mavne的配置文件。找到apache-maven-3.3.3/conf/setting.xml文件，找到如下代码：</p>
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">  &lt;!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+  --&gt;
+</code></pre></figure>
+<p>我们可以修改复制最后一行代码在注释的下面，并修改成你想要将Maven仓库存放的位置，如下：</p>
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml">  &lt;!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+  --&gt;
+  &lt;localRepository&gt;/home/sunmoon/wnglmng/dev/maven-repository&lt;/localRepository&gt;
+</code></pre></figure>
+<p>最后，在终端中敲并回车执：</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sunmoon@sunmoon-io:~$ mvn help:system
+</code></pre></figure>
+<p>这时候Maven就会从远程仓库开始下载一大堆依赖下来，可能会花费一段时间，你可以做些其他的。最后下载完成，你会发现/home/sunmoon/wnglmng/dev/maven-repository这个文件夹在你的磁盘上就出现了，这个就是Maven仓库。</p>
+
+<p>这样，我们的Maven就按算完成了。</p>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2015/10/linux-install-maven/" data-title=Linux下安装Maven data-url=https://wnglmng.com/2015/10/linux-install-maven/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+        
+            <a href="/2015/10/hello-world/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">Hello World</div>
+                        <div class="card-description card-description--clamp-0">
+                            我爱这个世界。
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww1.sinaimg.cn/mw690/906cb9dbgw1fayoxw9jh0j20b407e3zn.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2015-10-21</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    life &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+        
+        
+        
+        
+            <a href="/2015/11/hibernate-validator/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">Hibernate Validator</div>
+                        <div class="card-description card-description--clamp-0">
+                            ##Maven依赖搜索maven依赖时，可使用[Maven仓库](http://search.maven.org/)进行搜索。Hibernate Validator依赖如下：```xml	org.hibernate	hibernate-validator	4.3.1.Final```##校验规则```Bean Validation 中内置的 constraint@Null 	被注释的元素必须...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww2.sinaimg.cn/mw690/906cb9dbgw1fayovy436bj21fi0pagpd.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2015-11-10</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

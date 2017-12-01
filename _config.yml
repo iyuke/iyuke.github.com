@@ -1,1 +1,25 @@
-theme: jekyll-theme-merlot
+# Basic
+title: Nathaniel Yu's Blog
+author: Nathaniel Yu
+description: Hello，我是俞柯，请多多指教。<br/>现于饿了么（上海），从事互联网开发工作。
+
+url: "https://iyuke.github.io"
+
+permalink: /:year/:month/:title/
+
+# Format
+highlighter: plain
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript", tables]
+
+# Pagination
+gems: [jekyll-paginate]
+paginate: 15
+paginate_path: "pages/:num/"
+
+# Social
+social:
+    wechat: yuke82475507
+    github: https://github.com/iyuke
+    mail: 1209862616@qq.com

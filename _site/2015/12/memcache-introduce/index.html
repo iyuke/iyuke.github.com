@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <title>Memcache简单介绍</title>
+
+    <meta name="keywords" content="WngLMng, wangliming, 王立明">
+    <meta name="author" content="WngLMng">
+    <meta name="description" content="嗨，我是王立明，一名来自黑龙江省鹤岗市的男生。<br/>现于无线生活（北京），从事互联网开发工作。">
+
+    <meta property="og:site_name" content="WngLMng's Blog — 一个写代码的">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Memcache简单介绍">
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="最近在学习有关缓存的一些知识，了解到有Memcache和Redis，那我先来介绍一下我目前了解到Memcache吧。有些人可能会在网上看到Memcache和Memcached这两个词，这两个个东西其实不必太在意，只不过Memcache是这个项目的名称，而Memcached是项目的服务端主程序名称。">
+
+    <!--   Core CSS Files   -->
+    <link href="//cdn.bootcss.com/flex-layout-attribute/1.0.3/css/flex-layout-attribute.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css">
+
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://wnglmng.com/2015/12/memcache-introduce/">
+    <link rel="alternate" type="application/rss+xml" title="WngLMng's Blog" href="https://wnglmng.com/feed.xml">
+</head>
+
+<body>
+    <div id="nav" layout="row top-left">
+    <div self="left">
+        <a href="/"><div class="logo logo-isNotVisIfMobile">WngLMng's Blog</div></a>
+        <a href="/"><div class="logo logo-isVisIfMobile"></div></a>
+    </div>
+    <div class="nav-isNotVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+    <div class="nav-isVisIfMobile">
+        <div class="item">
+            <a href="/tags">Tags</a>
+        </div>
+        <div class="item">
+            <a href="/videos">Videos</a>
+        </div>
+    </div>
+</div>
+
+    <div id="content">
+        <div class="container container--header">
+    <h1 class="h1--home-title">Memcache简单介绍</h1>
+    <p></p>
+</div>
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/article.css">
+
+<div class="page-wrapper">
+    <div class="container--text">
+        <p>最近在学习有关缓存的一些知识，了解到有Memcache和Redis，那我先来介绍一下我目前了解到Memcache吧。有些人可能会在网上看到Memcache和Memcached这两个词，这两个个东西其实不必太在意，只不过Memcache是这个项目的名称，而Memcached是项目的服务端主程序名称。</p>
+
+<h2>简介</h2>
+
+<p><a href="http://memcached.org/">Memcached官网</a></p>
+
+<p>Memcache是一个基于内存的，采用key-value的存储方式，能够存储任何二进制数据（比如视频，图片，文件等）的一个分布式缓存系统。通过Memcache，可以减少数据库的访问压力，简单的说，平时我们都是从数据库中读取数据，那么使用Memcache后，我们可以从Memcache中读取数据，从而减少了数据库访问这一过程，如果说Memcache中不存在我们想要的数据，那么再从数据库中读取数据，然后及时更新数据到Memcache中，那下次请求相同的数据就不必访问数据库了。</p>
+
+<h3>特点</h3>
+
+<ul>
+<li>协议简单</li>
+<li>基于libevent的事件处理</li>
+<li>内置内存的存储方式</li>
+<li>memcached不相互通信的分布式</li>
+</ul>
+
+<h3>存储方式</h3>
+
+<p>Memcache使用的存储方式是key-value的方式，每一个key都会对应一个value。Memcache可以看做一张大的hash表来存储数据的。每一个key都会被hash生成一个hash-key，用来存储，查找value数据的。</p>
+
+<h3>LRU算法（最近未使用算法）</h3>
+
+<p>Memcached使用的算法是LRU。因为我们在开启Memcache服务的时候会分配指定的内存大小给它，当它存储的数据“爆表”后，当有新数据插入的时候，Memcache会删除最近未使用的数据，从而腾出空间给新来的数据。那它并不是实时监测哪些数据是要删除的，而是当有新数据出入，并且内存不够用的时候才会删除最近未使用的数据。</p>
+
+<h2>安装</h2>
+
+<p>在Mac下安装则非常简单😂(让我哭一会，我想静静)，在终端中输入下面的命令即可，它会自动安装并下载它所依赖的libevent。</p>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">$ brew install memcached
+</code></pre></figure>
+<p>brew是包的管理工具，没安装的可以参考<a href="http://brew.sh/">官网</a>。</p>
+
+<h2>命令</h2>
+
+<p>Memcached安装完后，可以在终端下尝试下面的一些命令。</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">$ memcached -d -m 512 -l 127.0.0.1 -p 11211
+</code></pre></figure>
+<p>上面的命令，-d是启动Memcached服务，-m是分配512M的内存，-l则是本机ip，127.0.0.1，-p是端口，一般设置成11211。</p>
+
+<p>更多命令如下：</p>
+<figure class="highlight"><pre><code class="language-text" data-lang="text">-p 监听的端口
+-l 连接的IP地址, 默认是本机
+-d start 启动memcached服务
+-d restart 重起memcached服务
+-d stop|shutdown 关闭正在运行的memcached服务
+-d install 安装memcached服务
+-d uninstall 卸载memcached服务
+-u 以的身份运行 (仅在以root运行的时候有效)
+-m 最大内存使用，单位MB。默认64MB
+-M 内存耗尽时返回错误，而不是删除项
+-c 最大同时连接数，默认是1024
+-f 块大小增长因子，默认是1.25-n 最小分配空间，key+value+flags默认是48
+-h 显示帮助
+</code></pre></figure>
+<h2>Memcached客户端</h2>
+
+<p>这里主要介绍一下Java的客户端，不好意思，我是搞Java的。</p>
+
+<h3>Java客户端</h3>
+
+<ul>
+<li>memcached client for java</li>
+<li>spymemcached</li>
+<li>xmemcached</li>
+</ul>
+
+<h3>比较</h3>
+
+<ul>
+<li>memcached client for java提出较早，使用广泛，稳定</li>
+<li>spymemcacheds比memcached client for java更高效</li>
+<li>xmemcached比spymemcached并发效果更好</li>
+</ul>
+
+<p>以上三种可以根据自己的需要进行选择，如果不能很明确的进行判断的话，使用xmemcached也是一个不错的选择，在各个情况下都会表现的很好。</p>
+
+<h3>github地址</h3>
+
+<ul>
+<li><a href="https://github.com/dustin/java-memcached-client">memcached client for java</a></li>
+<li><a href="https://github.com/killme2008/xmemcached">spymemcached</a></li>
+<li><a href="https://github.com/gwhalin/Memcached-Java-Client">xmemcached</a></li>
+</ul>
+
+<h3>XMemcached的使用</h3>
+
+<p>客户端除了memcached client for java没有使用，其余两个都有使用过，最后选择了xmemecached，具体的代码我就不写了，我觉得这篇文章已经写的很详细了，详情可以可以查看<a href="https://code.google.com/p/xmemcached/wiki/User_Guide_zh">https://code.google.com/p/xmemcached/wiki/User_Guide_zh</a>。</p>
+
+    </div>
+</div>
+
+<style type="text/css">
+    .ds-thread {
+        max-width: 680px;
+        margin: auto;
+    }
+</style>
+
+<!-- 多说评论框 start -->
+<!-- <div class="ds-thread" data-thread-key="/2015/12/memcache-introduce/" data-title=Memcache简单介绍 data-url=https://wnglmng.com/2015/12/memcache-introduce/></div> -->
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+// var duoshuoQuery = {short_name:"wnglmng"};
+//     (function() {
+//         var ds = document.createElement('script');
+//         ds.type = 'text/javascript';ds.async = true;
+//         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+//         ds.charset = 'UTF-8';
+//         (document.getElementsByTagName('head')[0]
+//          || document.getElementsByTagName('body')[0]).appendChild(ds);
+//     })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+<div class="related_posts-container" style="max-width: 790px;">
+    <p class="related_posts-header">RELATED ARTICLES</p>
+
+    <div layout="rows center-spread">
+
+        
+        
+        
+        
+            <a href="/2015/11/hibernate-validator/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">Hibernate Validator</div>
+                        <div class="card-description card-description--clamp-0">
+                            Maven依赖搜索maven依赖时，可使用Maven仓库进行搜索。Hibernate Validator依赖如下：&lt;dependency&gt;    &lt;groupId&gt;org.hibernate&lt;/groupId&gt;    &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;    &lt;versio...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww2.sinaimg.cn/mw690/906cb9dbgw1fayovy436bj21fi0pagpd.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2015-11-10</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+        
+        
+        
+        
+            <a href="/2016/03/the-server-quit-without-updating-pid-file/">
+                <div class="card card--article not-visible" >
+                    <div class="card-body">
+                        <div class="card-title">The server quit without updating PID file.</div>
+                        <div class="card-description card-description--clamp-0">
+                            今天在命令行启动MySQL的时候, 报了一个错误, 无法启动. 如下.```.ERROR! The server quit without updating PID file (/usr/local/var/mysql/WngLMng-MacBook.local.pid).```![](https://ww3.sinaimg.cn/large/906cb9dbgw1f9ilmfmcqxj21...
+                        </div>
+                    </div>
+                    <div class="card-hero">
+                        <div class="card-image card-image--size-185" data-url="https://ww3.sinaimg.cn/mw690/906cb9dbgw1fayouoc4xij21kw0f5jxk.jpg"></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-wrapper" layout="row bottom-left">
+                            <div class="card-type is-notShownIfHover">2016-03-22</div>
+                            <div class="card-tag is-notShownIfHover">@WngLMng</div>
+                            <div class="card-tag is-shownIfHover">
+                                
+                                    code &nbsp;&nbsp;
+                                
+                            </div>
+                            <div class="card-logo is-shownIfHover" self="right"></div>
+                        </div>
+                    </div>
+                 </div>
+            </a>
+        
+        
+
+    </div>
+</div>
+
+
+    </div>
+    <div id="footer" layout="rows center-left">
+    <div id="end-mark">
+        <div class="end-mark-icon"></div>
+        <p class="copyright">WngLMng' Blog © 2015&nbsp;&nbsp;·&nbsp;&nbsp;一个写代码的</p>
+    </div>
+    <div id="footer-links" self="right">
+        <ul>
+            <!-- <a href="#"><li class="wechat" target="_blank"></li></a> -->
+            <a href="mailto:wnglmng@gmail.com" target="_blank"><li class="mail"></li></a>
+            <a href="http://weibo.com/sunmoon1993" target="_blank"><li class="weibo"></li></a>
+            <a href="https://github.com/wnglmng" target="_blank"><li class="github"></li></a>
+        </ul>
+    </div>
+</div>
+
+</body>
+<!--   Core JS Files   -->
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/mixitup/2.1.11/jquery.mixitup.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</html>

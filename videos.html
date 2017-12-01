@@ -1,0 +1,105 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" type="text/css" href="{{ "/assets/css/homepage.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" type="text/css" href="{{ "/assets/css/video.css" | prepend: site.baseurl }}">
+
+<div class="container--grid home-container" style="min-height: auto;">
+        <div class="container container--header">
+            <h1 class="h1--home-title">VIP 电影免费看</h1>
+            <p>将视频链接地址拷贝至下方搜索输入框, 回车即可免费观看 VIP 电影</p>
+        </div>
+
+        <div class="search-wrapper">
+            <form>
+                <input type="text" id="videoSearchInput" />
+                <div class="after"></div>
+                <input type="submit" />
+            </form>
+            <h4>&nbsp;</h4>
+            <p>点击查找, 输入视频的链接, 例如: http://www.iqiyi.com/v_19rrifwzx2.html, 回车查看</p>
+        </div>
+        <div class="video-wrapper">
+            <iframe width="" height="" id="videoIframe" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="support-videos">
+            <p>现已支持以下网站视频播放(包含VIP电影)</p>
+            <ul layout="rows">
+				<li class="mix">
+                    <a href="http://www.le.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbvmfdj20460140ss.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://v.qq.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbvgqdj204601ejrk.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.iqiyi.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbqw0lj2032012dfm.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.youku.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzc59c3j20580113zs.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.tudou.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbvn5qj204601ewel.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.mgtv.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbrsltj204601eglq.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://tv.sohu.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbwhouj204601e0t3.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.youku.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzc59c3j20580113zs.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.acfun.tv/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbpd2pj202g00r0nl.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.bilibili.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbq8jzj203d019t8k.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.fun.tv/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffec4rpovsg204601ka9v.gif" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.wasu.cn/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbxmvtj204601et8p.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.56.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbq4r7j204601e3yf.jpg" />
+                    </a>
+                </li>
+                <li class="mix">
+                    <a href="http://www.yinyuetai.com/" target="_blank">
+                        <img src="https://ws1.sinaimg.cn/large/906cb9dbly1ffebzbqoa3j206o01e3yh.jpg" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {% include pagination.html %}
+</div>
+
+<script src="//cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+<script src="{{ "/assets/js/video.js" | prepend: site.baseurl }}"></script>
