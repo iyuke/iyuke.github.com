@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>多边形选址功能实现 - Hello, world! I'm Nathaniel Yu</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Hello, world! I'm Nathaniel Yu" property="og:site_name">
+  
+    <meta content="多边形选址功能实现" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/20-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%80%89%E5%9D%80%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/" property="og:url">
+  
+  
+    <meta content="2017-11-20T18:32:20+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="academic" property="article:tag">
+    
+  
+
+  
+    <meta name="twitter:card" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="多边形选址功能实现">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/20-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%80%89%E5%9D%80%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/">
+  
+  
+    <meta name="twitter:description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/david-freeman.jpg" alt="Nathaniel Yu"></a>
+      </div>
+      <div class="author-name">Nathaniel Yu</div>
+      <p>I am a web developer focusing on back-end development. Always hungry to keep learning.</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/iyuke" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1209862616@qq.com"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2018 &copy; Nathaniel Yu</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <img class="page-image" src=/assets/img/how-to-start.jpg alt="多边形选址功能实现">
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">多边形选址功能实现</h1>
+        <div class="page-date"><span>2017, Nov 20&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>Don’t be jealous of others. Because you never know how much you will get in the next second.</p>
+
+<p>这个多边形选址功能实现在很多互联网公司进行区域规划时都有涉及，我在饿了么实习的时候，这个是做的第一个项目，为了不泄漏公司业务，主要讲解下大致的需求以及实现的技术实现点，包括自己的一些想法。在说具体技术之前，首先真的要表扬一下，饿了么的技术栈的实例还是非常强大的，在里面学习了很多的知识。</p>
+
+<h3 id="项目主要需求">项目主要需求</h3>
+<p>用户在前端地图上画一个多边形，可以计算出这个多边形内可以统计的数据，当然还涉及其它的业务流程和数据统计</p>
+
+<h3 id="项目涉及的技术点">项目涉及的技术点</h3>
+<p>ES，因为数据量非常的庞大，并且是进行一个地理多边形查询，故选用ElasticSearch作为技术支撑。</p>
+
+<p>各个项目之间都是独立的，当需要其它接口数据的时候，需要引入其它项目对外提供的接口包，通过SOA接口进行相应调用。</p>
+
+<p>ES原生用的是json类型的数据格式进行数据查询访问，在项目中集成使用并不是很方便，所以利用一个开源的框架（ESSQL)，可以
+通过利用类似于SQL的方式进行查询。</p>
+
+<h3 id="essql具体技术实现">ESSQL具体技术实现</h3>
+<p>如果采用原生json类型的格式，可以通过如下的方式进行查询：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="no">GET</span> <span class="sr">/_search
+{
+    "query": {
+        "bool" : {
+            "must" : {
+                "match_all" : {}
+            },
+            "filter" : {
+                "geo_polygon" : {
+                    "person.location" : {
+                        "points" : [
+                        {"lat" : 40, "lon" : -70},
+                        {"lat" : 30, "lon" : -80},
+                        {"lat" : 20, "lon" : -90}
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}</span></code></pre></figure>
+
+<p>当采用ESSQL时，可以使用如下表示：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="no">String</span> <span class="n">sql</span> <span class="o">=</span> <span class="s2">"select shop_id,name as full_name, city_id,city_name from shop where 
+              city_id="</span><span class="o">+</span><span class="n">city_id</span><span class="p">.</span><span class="nf">intValue</span><span class="p">()</span><span class="o">+</span>
+              <span class="s2">" and GEO_POLYGON(shop_location,"</span><span class="o">+</span><span class="n">latlons</span><span class="p">.</span><span class="nf">toString</span><span class="p">()</span><span class="o">+</span><span class="s2">")"</span><span class="p">;</span>
+<span class="no">List</span><span class="o">&lt;</span><span class="no">ShopEsVo</span><span class="o">&gt;</span> <span class="n">shopEsVoList</span> <span class="o">=</span> <span class="no">SqlQuery</span><span class="p">.</span><span class="nf">getInstance</span><span class="p">().</span><span class="nf">toBeanList</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="no">ShopEsVo</span><span class="p">.</span><span class="nf">class</span><span class="p">);</span></code></pre></figure>
+
+<p>通过这种sql方式可以让我们更加直观对ES进行操作。当然通过ES还可以计算给个一个圆心和半径圆内的数据，以及一条直线上的数据，使用ES相对来说比较简单，但是ES内部涉及到很多的算法以及底层的lucene，接下去都要花时间好好去学一下。ES适合用来存储查询远远大于修改的数据，并且在数据量很大的🈴️，或者需要进行一些模糊匹配的时候，能够利用倒排索引对数据进行快速的处理。但是这并不表示，它能替代MySQL，ES 做的工作主要是搜索，它没有事务，权限控制等功能，并且有可能会造成数据丢失。并且MySQL是关系型数据库，对于强关系型的数据需要MySQL来进行相应的维护。</p>
+
+<h3 id="想法和接下去的目标">想法和接下去的目标</h3>
+<p>之前有听说过ES，但是一直没有时间去学习，在这次项目做的过程中，通过对需求的了解明白了ES的一些实际使用价值，并且学习了一些ES的基础知识和框架，接下去需要系统学习ES里面的核心知识与算法。</p>
+
+<h3 id="essql参考地址-httpsgithubcomanchormensql4es">ESSQL参考地址 https://github.com/Anchormen/sql4es</h3>
+
+<p><img src="../assets/img/ES.png" alt="" /></p>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=多边形选址功能实现&url=http://localhost:4000/20-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%80%89%E5%9D%80%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/20-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%80%89%E5%9D%80%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/20-%E5%A4%9A%E8%BE%B9%E5%BD%A2%E9%80%89%E5%9D%80%E5%8A%9F%E8%83%BD%E5%AE%9E%E7%8E%B0/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#academic" class="tag">&#35; academic</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-right.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
