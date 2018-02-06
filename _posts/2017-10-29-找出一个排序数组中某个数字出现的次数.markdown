@@ -1,0 +1,116 @@
+---
+layout: post
+title: 找出一个排序数组中某个数字出现的次数
+date: 2017-10-29 13:32:20 +0300
+description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+img: mac.jpg # Add image post (optional)
+tags: [academic]
+---
+Don't be jealous of others. Because you never know how much you will get in the next second. 
+
+在面试的时候被问到一个算法问题，不难，但是面试结束后对问题做了相关的总结，题目是找出一个排序数组中某个数字出现的次数，我首先的第一反应肯定是遍历一遍数组
+，时间复杂度是n，当然这个方法肯定是不行的，在这种排序的数组，肯定得用二分法，让时间复杂度降到nlog(n)，所以我想到的方法是，因为是一个有序的数组，所以先用
+二分法找到目标数字的最左边的数，再同样利用二分法找到最右边的数，右边的坐标减去左边的，再加上1，就可以了。直接上程序代码：
+
+### 计算目标数字最左边的数的下标
+{% highlight ruby %} 
+    static int findFirstEqual(int[] array, int key) {
+        int left = 0;
+        int right = array.length - 1;
+        //这里必须是 <=
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (array[mid] >= key) {
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+        if (left < array.length && array[left] == key) {
+            return left;
+        }
+        return -1;
+    }
+{% endhighlight %}
+
+### 计算目标数字最右边的数的下标
+{% highlight ruby %} 
+    static int findLastEqual(int[] array, int key) {
+        int left = 0;
+        int right = array.length - 1;
+        //这里必须是 <=
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (array[mid] <= key) {
+                left = mid + 1;
+            }
+            else {
+                right = mid - 1;
+            }
+        }
+        if (right >= 0 && array[right] == key) {
+            return right;
+        }
+        return -1;
+    }
+{% endhighlight %}
+
+其实这部分内容就是二分法的变种，在数组有序的情况下，时间复杂度尽量往nlog(n)靠，下面贴出其它变种的二分法
+
+### 计查找最后一个等于或者小于key的元素
+{% highlight ruby %}
+    static int findLastEqualSmaller(int[] array, int key) {
+        int left = 0;
+        int right = array.length - 1;
+        //这里必须是 <=
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (array[mid] > key) {
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+        return right;
+    }
+{% endhighlight %}
+
+### 查找最后一个小于key的元素
+{% highlight ruby %}
+    static int findLastSmaller(int[] array, int key) {
+        int left = 0;
+        int right = array.length - 1;
+        //这里必须是 <=
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (array[mid] >= key) {
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+        return right;
+    }
+{% endhighlight %}
+
+### 查找第一个等于或者大于key的元素
+{% highlight ruby %}
+    static int findFirstEqualLarger(int[] array, int key) {
+        int left = 0;
+        int right = array.length - 1;
+        //这里必须是 <=
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (array[mid] >= key) {
+                right = mid - 1;
+            }
+            else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+{% endhighlight %}

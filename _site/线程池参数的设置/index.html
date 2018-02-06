@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>线程池参数的设置 - Hello, world! I'm Nathaniel Yu</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Hello, world! I'm Nathaniel Yu" property="og:site_name">
+  
+    <meta content="线程池参数的设置" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/" property="og:url">
+  
+  
+    <meta content="2017-11-20T18:32:20+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="academic" property="article:tag">
+    
+  
+
+  
+    <meta name="twitter:card" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="线程池参数的设置">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/">
+  
+  
+    <meta name="twitter:description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/david-freeman.jpg" alt="Nathaniel Yu"></a>
+      </div>
+      <div class="author-name">Nathaniel Yu</div>
+      <p>I am a web developer focusing on back-end development. Always hungry to keep learning.</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/iyuke" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1209862616@qq.com"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2018 &copy; Nathaniel Yu</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <img class="page-image" src=/assets/img/how-to-start.jpg alt="线程池参数的设置">
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">线程池参数的设置</h1>
+        <div class="page-date"><span>2017, Nov 20&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>Don’t be jealous of others. Because you never know how much you will get in the next second.</p>
+
+<p>之前实习找公司去途牛旅游面试时候，面试官问了我一个线程池方面的问题，让我印象很深刻，如果让你自己设计一个线程池，里面的
+参数应该如何确定，其实我之前是有看过Java线程池的部分源码的，所以对线程池里面的一些关键参数印象还是很深的，比如corePoolSize,
+maximumPoolSize,keepAliveTime，handler等都能说出个所以然来，但是对于实际情况参数的设定并没有过多的考虑，当时回答了和
+CPU的核数以及系统的负载等条件有关，面试结束后，我详细的查了一些资料，学习如何具体设置线程池的参数。</p>
+
+<h3 id="corepoolsize">corePoolSize</h3>
+<p>corePoolSize表示核心线程池的大小，在创建线程池后，默认情况下，线程池中没有任何线程，而是等待任务到来以后才会去创建线程，
+除非调用了preStartAllCoreThreads()或者preStartCoreThread()方法，预先创建线程。因此在默认情况下，创建线程后，线程池中的线程
+数量为0，当有任务来时，则创建一个线程去执行任务，当线程池中的线程数量达到corePoolSize时，就会把后续达到的任务放到缓存队列中。如果添加
+成功，则该任务会等空闲线程将其取出后去执行，如果添加失败（一般来说是任务缓存队列已经满了），则会尝试创建新的线程去执行这个任务。</p>
+
+<h3 id="maximumpoolsize">maximumPoolSize</h3>
+<p>表示线程池的最大线程数，如果当前线程中的线程数量达到最大时，会采用拒绝策略进行处理。</p>
+
+<h3 id="keepalivetime">keepAliveTime</h3>
+<p>表示线程没有任务执行时，最后保持多久时间会终止。默认情况下，只有当线程池中的线程数量大于corePoolSize时，keepAliveTime才会起作用，
+直到线程池中的线程数量不大于corePoolSize，即当线程池中的数量大于corePoolSize时，如果一个线程的空闲时间达到keepAliveTime，则会终止。
+但是如果调用了allowCoreThreadTimeOut(boolean)时，当线程池中的数量不大于corePoolSize时，keepAliveTime也会起作用，直到线程池
+中线程的数量为0为止。</p>
+
+<h3 id="unit">unit</h3>
+<p>keepAliveTime的时间单位</p>
+
+<h3 id="workqueue">workQueue</h3>
+<p>一个阻塞队列，用来存储等待执行的任务。LinkBlockingQueue,SynchronousQueue</p>
+
+<p>workQueue的类型为BlockingQueue<Runnable>，通常可以取下面三种类型：</Runnable></p>
+
+<p>1）ArrayBlockingQueue：基于数组的先进先出队列，此队列创建时必须指定大小；</p>
+
+<p>2）LinkedBlockingQueue：基于链表的先进先出队列，如果创建时没有指定此队列大小，则默认为Integer.MAX_VALUE；</p>
+
+<p>3）synchronousQueue：这个队列比较特殊，它不会保存提交的任务，而是将直接新建一个线程来执行新来的任务。</p>
+
+<p>newFixedThreadPool创建的线程池corePoolSize和maximumPoolSize值是相等的，它使用的LinkedBlockingQueue；</p>
+
+<p>newSingleThreadExecutor将corePoolSize和maximumPoolSize都设置为1，也使用的LinkedBlockingQueue；</p>
+
+<p>newCachedThreadPool将corePoolSize设置为0，将maximumPoolSize设置为Integer.MAX_VALUE，使用的SynchronousQueue（数据是在配对的生产者和消费者线程之间直接传递的，并不会将数据缓冲数据到队列中），也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。</p>
+
+<h3 id="workqueue-1">workQueue</h3>
+<p>拒绝策略，主要有四种：</p>
+
+<p>ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。</p>
+
+<p>ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。</p>
+
+<p>ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</p>
+
+<p>ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务 这个策略重试添加当前的任务，他会自动重复调用 execute() 方法，直到成功</p>
+
+<h3 id="线程池参数具体设置">线程池参数具体设置</h3>
+<p>参数的设置跟系统的负载有直接的关系，下面为系统负载的相关参数：</p>
+
+<blockquote>
+  <p>tasks，每秒需要处理的最大任务数量</p>
+</blockquote>
+
+<blockquote>
+  <p>tasktime，处理第个任务所需要的时间</p>
+</blockquote>
+
+<blockquote>
+  <p>responsetime，系统允许任务最大的响应时间，比如每个任务的响应时间不得超过2秒</p>
+</blockquote>
+
+<h1 id="corepoolsize-1">corePoolSize:</h1>
+
+<p>每个任务需要tasktime秒处理，则每个线程每钞可处理1/tasktime个任务。系统每秒有tasks个任务需要处理，则需要的线程数为：</p>
+
+<blockquote>
+  <p>tasks / (1 / tasktime) 即tasks*tasktime个线程数。</p>
+</blockquote>
+
+<p>假设系统每秒任务数为100 ~ 1000，每个任务耗时0.1秒，则需要100 * 0.1至1000 * 0.1，即10 ~ 100个线程。
+那么corePoolSize应该设置为大于10，具体数字最好根据8020原则，即80%情况下系统每秒任务数，若系统80%的情况下第秒任务数小于200，
+最多时为1000，则corePoolSize可设置为20。</p>
+
+<h1 id="queuecapacity">queueCapacity:</h1>
+
+<p>任务队列的长度要根据核心线程数，以及系统对任务响应时间的要求有关。队列长度可以设置为</p>
+
+<blockquote>
+  <p>corePoolSize *（responsetime / tasktime） ：20 *（2 / 0.1）=400</p>
+</blockquote>
+
+<p>即队列长度可设置为400。</p>
+
+<p>队列长度设置过大，会导致任务响应时间过长，切忌以下写法：</p>
+
+<blockquote>
+  <p>LinkedBlockingQueue queue = new LinkedBlockingQueue();</p>
+</blockquote>
+
+<p>这实际上是将队列长度设置为Integer.MAX_VALUE，将会导致线程数量永远为corePoolSize，再也不会增加，当任务数量陡增时，任务响应时间也将随之陡增。</p>
+
+<h1 id="maxpoolsize">maxPoolSize:</h1>
+
+<p>当系统负载达到最大值时，核心线程数已无法按时处理完所有任务，这时就需要增加线程。每秒200个任务需要20个线程，那么当每秒达到1000个任务时，则需要</p>
+
+<blockquote>
+  <p>(1000 - queueCapacity) * (20 / 200) = 60</p>
+</blockquote>
+
+<p>即60个线程，可将maxPoolSize设置为60。</p>
+
+<h1 id="keepalivetime-1">keepAliveTime:</h1>
+
+<p>线程数量只增加不减少也不行。当负载降低时，可减少线程数量，如果一个线程空闲时间达到keepAliveTiime，该线程就退出。默认情况下线程池最少会保持corePoolSize个线程。</p>
+
+<h1 id="allowcorethreadtimeout">allowCoreThreadTimeout:</h1>
+
+<p>默认情况下核心线程不会退出，可通过将该参数设置为true，让核心线程也退出。</p>
+
+<p>以上关于线程数量的计算并没有考虑CPU的情况。若结合CPU的情况，比如，当线程数量达到50时，CPU达到100%，则将maxPoolSize设置为60也不合适，
+此时若系统负载长时间维持在每秒1000个任务，则超出线程池处理能力，应设法降低每个任务的处理时间(tasktime)。</p>
+
+<blockquote>
+  <p>关于CPU负载这一块将单独开一篇博客进行论述</p>
+</blockquote>
+
+<h3 id="线程池使用场景">线程池使用场景</h3>
+<p>FixedThreadPool适用于为了满足资源管理的需求，而需要限制当前线程数量的应用场景，它适用于负载比较重的服务器。</p>
+
+<p>SingleThreadExecutor适用于需要保证顺序地执行各个任务；并且在任意时间点，不会有多个线程是活动的应用场景。</p>
+
+<p>CachedThreadPool是大小无界的线程池，适用于执行很多的短期异步任务的小程序，或者是负载较轻的服务器。</p>
+
+<p>ScheduledThreadPoolExecutor适用于需要多个后台线程执行周期任务，同时为了满足资源管理的需求而需要限制后台线程的数量的应用场景。</p>
+
+<p>SingleThreadScheduledExecutor适用于需要单个后台线程执行周期任务，同时需要保证顺序地执行各个任务的应用场景。</p>
+
+<p>Future接口和实现Future接口的FutureTask类用来表示异步计算的结果。</p>
+
+<h3 id="总结">总结</h3>
+<p>通过每一次面试，都能学习到很多忽略的细节知识，最后通过了途牛旅游的面试，虽然最后选择了另一家公司，但非常感谢给予这次面试机会。</p>
+
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=线程池参数的设置&url=http://localhost:4000/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0%E7%9A%84%E8%AE%BE%E7%BD%AE/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#academic" class="tag">&#35; academic</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-right.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

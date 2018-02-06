@@ -1,0 +1,81 @@
+---
+layout: post
+title: 系统日志负载查看
+date: 2017-09-02 13:32:20 +0300
+description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
+img: how-to-start.jpg # Add image post (optional)
+tags: [academic]
+---
+Don't be jealous of others. Because you never know how much you will get in the next second. 
+
+### 在线日志分析：
+1.通过异常的堆栈，定位内存泄漏等问题
+
+2.通过访问IP和url参数，排查是否遭到攻击，以及攻击的形式
+
+3.通过应用的响应时间，垃圾回收以及系统load来判断系统负载
+
+4.通过线程dump，判断是否死锁和线程阻塞的原因
+
+5.通过应用的GC日志，对系统代码和JVM内存参数进行优化，减少GC次数和stop the world的时间，优化响应时间
+
+查看文件内容：cat -n a.log (-n显示行号)
+
+分页显示文件：more a.log  |  less a.log(比more强大，支持内容查找，高亮显示)
+
+查看头，尾前n行：head -n3 a.log  |  tail -n3 a.log(显示前三或者后三行)
+
+通过sort进行排序：sort -n -r -k 2(-n安装数字顺序进行排序  -r逆序排列   -k 表示第二列)
+
+统计文件中的行数：wc -l a.log  |  子节数 wc -c a.log |  最长的行的长度wc -L a.log
+
+统计文件包含多少个单词：wc -w a.log
+
+uniq可以用来显示文件中行重复的次数，或者显示仅出现一次的行，以及仅仅显示重复出现的行，并且uniq的去重针对的只是连续的两行，所以与sort结合起来用
+
+sort a.log \| uniq -c (-c参数用来在每一行最前面加上该行出现的次数)
+
+sort a.log \| uniq -u (-u参数只会显示出现一次的行)
+
+sort a.log \| uniq -d (-d参数只会显示出现多次的行)
+
+grep命令查找文件中符合条件的字符串，支持正则 grep 'G.*T' a.log 
+
+grep -c  'G.*T' a.log 显示查找到的行数
+ 
+找某个路径下的文件  find /home -name "*.txt"
+
+还可以用find命令递归打印当前目录的所有文件  find . -print 其中 . 表示当前目录
+
+whereis a.log  也是用于定位
+
+归档文件  tar -cf aaa.tar detach tmp 将当前目录下的detach和tmp目录打包成aaa.tar文件
+
+命令行下通过http下一访问网页文档 curl -i  www.google.com  (-i返回带header的文档)
+
+curl -I  www.google.com  (-I 只返回带header的文档)
+
+### 查看请求访问量：
+
+访问量排名前10的IP地址：cat a.log \| cut -f1 -d " "  \|  sort \| uniq -c \| sort -k 1 -n -r \| head -10
+
+访问量排名前10的url地址：cat a.log \| cut -f4 -d " "  \|  sort \| uniq -c \| sort -k 1 -n -r \| head -10
+
+cut命令用来过滤日志中指定列，列之间用空格分隔
+
+top \| grep Cpu 查看cpu消耗的情况  uptime
+
+df -h看到磁盘的剩余空间   -h按单位格式化输出
+
+du -d 1 -h /home 查看具体目录所占用的空间，分析大文件所在位置，-d 参数用来指定深度递归，这里指定为1 
+
+iostat -d -k 查看系统IO状况 -d 表示查看磁盘使用情况  -k 以KB为单位显示
+
+参数表示  Device表示设备名称   tps表示每秒处理IO请求数  KB_read/s每秒从设备读取的数据量，KB_wrtn/s每秒向设备写入的数据量，KB_read读取的数据总量，KB_write表示写入的数据总量
+
+free -m 内存使用情况 -m表示以MB为单位
+
+### CPU load
+java程序CPU占用率过高：Linux上排查，首先在Linux查看哪些进程CPU占用率高，用ps ux。然后找到对应进程中的线程，ps -Lp PID cu。追查线程内部，负载过高的原因，用jstack PID，在进行分析。CPU load飙高，可能和full GC次数增多有关，也可能和出现死循环有关
+
+CPU负载显示的是一段时间内正在使用和等待使用CPU的平均任务数，可以用top命令、uptime命令查看，一般来说只要每个CPU的当前活动进程数不大于3那么系统的性能就是良好的，如果每个CPU的任务数大于5，那么就表示这台机器的性能有严重问题。
