@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Spring中Bean的初始化过程 - Hello, world! I'm Nathaniel Yu</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Hello, world! I'm Nathaniel Yu" property="og:site_name">
+  
+    <meta content="Spring中Bean的初始化过程" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" property="og:url">
+  
+  
+    <meta content="2017-09-26T18:32:20+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="academic" property="article:tag">
+    
+  
+
+  
+    <meta name="twitter:card" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Spring中Bean的初始化过程">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/">
+  
+  
+    <meta name="twitter:description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/david-freeman.jpg" alt="Nathaniel Yu"></a>
+      </div>
+      <div class="author-name">Nathaniel Yu</div>
+      <p>I am a web developer focusing on back-end development. Always hungry to keep learning.</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/iyuke" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1209862616@qq.com"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2018 &copy; Nathaniel Yu</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <img class="page-image" src=/assets/img/how-to-start.jpg alt="Spring中Bean的初始化过程">
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Spring中Bean的初始化过程</h1>
+        <div class="page-date"><span>2017, Sep 26&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>Don’t be jealous of others. Because you never know how much you will get in the next second.</p>
+
+<h3 id="spring什么时候实例化bean首先要分2种情况">Spring什么时候实例化bean，首先要分2种情况</h3>
+
+<p>第一：如果你使用BeanFactory作为Spring Bean的工厂类，则所有的bean都是在第一次使用该Bean的时候实例化</p>
+
+<p>第二：如果你使用ApplicationContext作为Spring Bean的工厂类，则又分为以下几种情况：</p>
+
+<p>1）：如果bean的scope是singleton的，并且lazy-init为false（默认是false，所以可以不用设置），则   ApplicationContext启动的时候就实例化该Bean，并且将实例化的Bean放在一个map结构的缓存中，
+          下次再使用该Bean的时候，直接从这个缓存中取</p>
+
+<p>2）：如果bean的scope是singleton的，并且lazy-init为true，则该Bean的实例化是在第一次使用该Bean的时候进行实例化</p>
+
+<p>3）：如果bean的scope是prototype的，则该Bean的实例化是在第一次使用该Bean的时候进行实例化</p>
+
+<p>AbstractApplicationContext ctx = new ClassPathXmlApplicationContext(“/beans.xml”); //随着spring容器加载，就不会实例化bean。</p>
+
+<p>Person person = ctx.getBean(“person”);//这一步才在实例化bean。就是前面说的需要的时候再实例化了。</p>
+
+<h3 id="下面就是实例化bean的过程">下面就是实例化bean的过程。</h3>
+
+<p>实例化bean测试结果：先构造函数——&gt;然后是b的set方法注入—— &gt;InitializingBean 的afterPropertiesSet方法——&gt;init- method方法</p>
+
+<h3 id="spring装配bean的过程">Spring装配Bean的过程</h3>
+
+<ol>
+  <li>
+    <p>实例化;</p>
+  </li>
+  <li>
+    <p>设置属性值;</p>
+  </li>
+  <li>
+    <p>如果实现了BeanNameAware接口,调用setBeanName设置Bean的ID或者Name;</p>
+  </li>
+  <li>
+    <p>如果实现BeanFactoryAware接口,调用setBeanFactory 设置BeanFactory;</p>
+  </li>
+  <li>
+    <p>如果实现ApplicationContextAware,调用setApplicationContext设置ApplicationContext</p>
+  </li>
+  <li>
+    <p>调用BeanPostProcessor的预先初始化方法;</p>
+  </li>
+  <li>
+    <p>调用InitializingBean的afterPropertiesSet()方法;</p>
+  </li>
+  <li>
+    <p>调用定制init-method方法；</p>
+  </li>
+  <li>
+    <p>调用BeanPostProcessor的后初始化方法;</p>
+  </li>
+</ol>
+
+<h3 id="spring容器关闭过程">Spring容器关闭过程</h3>
+
+<ol>
+  <li>
+    <p>调用DisposableBean的destroy();</p>
+  </li>
+  <li>
+    <p>调用定制的destroy-method方法;</p>
+  </li>
+</ol>
+
+<p>Bean在实例化的过程中：Constructor &gt; @PostConstruct &gt;InitializingBean &gt; init-method</p>
+
+<p>Bean在销毁的过程中：@PreDestroy &gt; DisposableBean &gt; destroy-method</p>
+
+<p>PostConstruct为何率先于InitializingBean执行呢？</p>
+
+<p>@PostConstruct注解后的方法在BeanPostProcessor前置处理器中就被执行了，所以当然要先于InitializingBean和init-method执行了</p>
+
+<p>init-method是通过反射执行的，而afterPropertiesSet是直接执行的。所以 afterPropertiesSet的执行效率比init-method要高，
+不过init-method消除了bean对Spring依赖</p>
+
+<p><img src="../assets/img/Bean.jpeg" alt="" /></p>
+
+<h3 id="在servlet中">在Servlet中：</h3>
+
+<p><img src="../assets/img/servlet.png" alt="" /></p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Spring中Bean的初始化过程&url=http://localhost:4000/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Spring%E4%B8%ADBean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#academic" class="tag">&#35; academic</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-right.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>

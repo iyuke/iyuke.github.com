@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Java虚拟机双亲委托+Tomcat破坏双亲委托 - Hello, world! I'm Nathaniel Yu</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Hello, world! I'm Nathaniel Yu" property="og:site_name">
+  
+    <meta content="Java虚拟机双亲委托+Tomcat破坏双亲委托" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98+Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98/" property="og:url">
+  
+  
+    <meta content="2017-09-21T18:32:20+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="academic" property="article:tag">
+    
+  
+
+  
+    <meta name="twitter:card" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Java虚拟机双亲委托+Tomcat破坏双亲委托">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98+Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98/">
+  
+  
+    <meta name="twitter:description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/david-freeman.jpg" alt="Nathaniel Yu"></a>
+      </div>
+      <div class="author-name">Nathaniel Yu</div>
+      <p>I am a web developer focusing on back-end development. Always hungry to keep learning.</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/iyuke" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1209862616@qq.com"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2018 &copy; Nathaniel Yu</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <img class="page-image" src=/assets/img/how-to-start.jpg alt="Java虚拟机双亲委托+Tomcat破坏双亲委托">
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Java虚拟机双亲委托+Tomcat破坏双亲委托</h1>
+        <div class="page-date"><span>2017, Sep 21&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>Don’t be jealous of others. Because you never know how much you will get in the next second.</p>
+
+<p>首先说一下大家都知道的Java虚拟机中的双亲委托模型，如果一个类加载器接受到类加载的请求，它首先不会自己去尝试加载这个类，
+而是把这个请求委托给父类加载器去完成，每一个加载器都是如此，因此所有的加载请求都会床送到顶层的启动类加载器，
+只有当父类加载器反馈自己无法完成这个记载请求（它的搜索范围中没有所需要的类）时，子类加载器才会自己去尝试加载。</p>
+
+<p><img src="../assets/img/classLoader.png" alt="" /></p>
+
+<p>从java虚拟机的角度来看，分为两种不同的类加载器：</p>
+
+<p>一种是启动类加载器（Bootstrap ClassLoader），这个类加载器使用C++语言实现，是虚拟机的一部分</p>
+
+<p>另一种是所有其他类的加载器，由java实现，独立于虚拟机外部，并且都继承自抽象类java.lang.ClassLoader，主要有以下几个核心类：</p>
+
+<p>ClassLoader：所有类加载器的基类，它是抽象的，定义了类加载最核心的操作。</p>
+
+<p>SecureClassLoader：继承自ClassLoader，添加了关联类源码、关联系统policy权限等支持</p>
+
+<p>URLClassLoader：继承自SecureClassLoader，支持从jar文件和文件夹中获取class</p>
+
+<p>ExtClassLoader：扩展类加载器，继承自URLClassLoader，负责加载java的扩展类(javax.*等)，查看源码可知其查找范围为System.getProperty(“java.ext.dirs”)，通常是jre/lib/ext</p>
+
+<p>AppClassLoader：应用类加载器，继承自URLClassLoader，也叫系统类加载器（ClassLoader.getSystemClassLoader()可得到它），它负载加载应用的classpath下的类，查找范围System.getProperty(“java.class.path”)，通过-cp或-classpath指定的类都会被其加载</p>
+
+<p><img src="../assets/img/Loader.png" alt="" /></p>
+
+<p>双亲委托模型具体代码的实现（取自ClassLoader.java）：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="kp">protected</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">loadClass</span><span class="p">(</span><span class="no">String</span> <span class="nb">name</span><span class="p">,</span> <span class="n">boolean</span> <span class="n">resolve</span><span class="p">)</span> <span class="n">throws</span> <span class="no">ClassNotFoundException</span>
+<span class="p">{</span>
+    <span class="n">synchronized</span> <span class="p">(</span><span class="n">getClassLoadingLock</span><span class="p">(</span><span class="nb">name</span><span class="p">))</span> <span class="p">{</span>
+        <span class="sr">//</span> <span class="no">First</span><span class="p">,</span> <span class="n">check</span> <span class="k">if</span> <span class="n">the</span> <span class="k">class</span> <span class="n">has</span> <span class="n">already</span> <span class="n">been</span> <span class="n">loaded</span>
+        <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">findLoadedClass</span><span class="p">(</span><span class="nb">name</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">long</span> <span class="n">t0</span> <span class="o">=</span> <span class="no">System</span><span class="p">.</span><span class="nf">nanoTime</span><span class="p">();</span>
+            <span class="n">try</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">parent</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="sr">//</span><span class="err">使用父加载器加载</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">parent</span><span class="p">.</span><span class="nf">loadClass</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="kp">false</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="sr">//</span><span class="err">如果</span><span class="n">parent</span><span class="err">为</span><span class="n">null</span><span class="err">，则为根加载器</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">findBootstrapClassOrNull</span><span class="p">(</span><span class="nb">name</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="kp">catch</span> <span class="p">(</span><span class="no">ClassNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span> <span class="no">ClassNotFoundException</span> <span class="n">thrown</span> <span class="k">if</span> <span class="k">class</span> <span class="n">not</span> <span class="n">found</span>
+                <span class="sr">//</span> <span class="n">from</span> <span class="n">the</span> <span class="n">non</span><span class="o">-</span><span class="n">null</span> <span class="n">parent</span> <span class="k">class</span> <span class="n">loader</span>
+            <span class="p">}</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span> <span class="no">If</span> <span class="n">still</span> <span class="n">not</span> <span class="n">found</span><span class="p">,</span> <span class="k">then</span> <span class="n">invoke</span> <span class="n">findClass</span> <span class="k">in</span> <span class="n">order</span>
+                <span class="sr">//</span> <span class="n">to</span> <span class="n">find</span> <span class="n">the</span> <span class="k">class</span><span class="p">.</span>
+                <span class="nf">long</span> <span class="n">t1</span> <span class="o">=</span> <span class="no">System</span><span class="p">.</span><span class="nf">nanoTime</span><span class="p">();</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">findClass</span><span class="p">(</span><span class="nb">name</span><span class="p">);</span>
+
+                <span class="sr">//</span> <span class="n">this</span> <span class="n">is</span> <span class="n">the</span> <span class="n">defining</span> <span class="k">class</span> <span class="n">loader</span><span class="p">;</span> <span class="n">record</span> <span class="n">the</span> <span class="n">stats</span>
+                <span class="n">sun</span><span class="p">.</span><span class="nf">misc</span><span class="o">.</span><span class="no">PerfCounter</span><span class="p">.</span><span class="nf">getParentDelegationTime</span><span class="p">().</span><span class="nf">addTime</span><span class="p">(</span><span class="n">t1</span> <span class="o">-</span> <span class="n">t0</span><span class="p">);</span>
+                <span class="n">sun</span><span class="p">.</span><span class="nf">misc</span><span class="o">.</span><span class="no">PerfCounter</span><span class="p">.</span><span class="nf">getFindClassTime</span><span class="p">().</span><span class="nf">addElapsedTimeFrom</span><span class="p">(</span><span class="n">t1</span><span class="p">);</span>
+                <span class="n">sun</span><span class="p">.</span><span class="nf">misc</span><span class="o">.</span><span class="no">PerfCounter</span><span class="p">.</span><span class="nf">getFindClasses</span><span class="p">().</span><span class="nf">increment</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">resolve</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">resolveClass</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">c</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>好，这种双亲委托模型并不是一个强制性的约束模型，有两种方法可以对这种模型进行破坏。</p>
+
+<p>1.重写loadClass()方法破坏双亲委托模型。双亲委托是在JDK1.2以后才引入的，在JDK1.2之后的java.lang.ClassLoader添加了一个
+新的protected方法findClass()，把自己的类加载逻辑写到这个方法中，在loadClass方法中如果父类加载失败，则调用自己的findClass()来完成加载，
+这样保证双亲委托模型。好，那如果我们直接重写loadClass.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="vi">@Override</span>
+<span class="kp">public</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">loadClass</span><span class="p">(</span><span class="no">String</span> <span class="nb">name</span><span class="p">)</span> <span class="n">throws</span> <span class="no">ClassNotFoundException</span> <span class="p">{</span>
+   <span class="n">try</span> <span class="p">{</span>
+      <span class="no">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">substring</span><span class="p">(</span><span class="nb">name</span><span class="p">.</span><span class="nf">lastIndexOf</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s2">".class"</span><span class="p">;</span>
+      <span class="no">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="n">getClass</span><span class="p">().</span><span class="nf">getResourceAsStream</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">is</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="k">super</span><span class="p">.</span><span class="nf">loadClass</span><span class="p">(</span><span class="nb">name</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="n">byte</span><span class="p">[]</span> <span class="n">b</span> <span class="o">=</span> <span class="n">new</span> <span class="n">byte</span><span class="p">[</span><span class="n">is</span><span class="p">.</span><span class="nf">available</span><span class="p">()];</span>
+      <span class="n">is</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+      <span class="k">return</span> <span class="n">defineClass</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="p">.</span><span class="nf">length</span><span class="p">);</span>
+<span class="p">}</span>
+   <span class="kp">catch</span> <span class="p">(</span><span class="no">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kp">throw</span> <span class="n">new</span> <span class="no">ClassNotFoundException</span><span class="p">(</span><span class="nb">name</span><span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>就不会把请求委托给父类加载器，而是自己去加载该类。</p>
+
+<p>2.第二种破坏双亲委托模型的方式是线程上下文类加载器（Thread Context ClassLoader），这个类加载器通过可以通过Thread类中的
+setContextClassLoader()方法进行设置，如果创建线程时还未设置，它将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过，
+那么这个类加载器默认就是应用类加载器，有了这个线程上下文加载器，就可以实现父类加载器请求子类加载器去完成类加载的动作，而这种方式违背了双亲委托。
+Tomcat中使用Spring就实现了这种方式，首先web服务器要解决以下问题：</p>
+
+<p>①   同一个Web服务器里，各个Web项目之间各自使用的Java类库要互相隔离。</p>
+
+<p>②   同一个Web服务器里，各个Web项目之间可以提供共享的Java类库。</p>
+
+<p>③   服务器为了不受Web项目的影响，应该使服务器的类库与应用程序的类库互相独立。</p>
+
+<p>④   对于支持JSP的Web服务器，应该支持热插拔（hotswap）功能。</p>
+
+<p>如图所示，tomcat7中，启动类加载器、扩展类加载器、应用程序类加载器这三个类加载器数据JDK级别的加载器，他们是唯一的，
+我们一般不会对其做任何更改。接下来则是Tomcat的类加载器，在tomcat7中，最重要的一个类加载器是Common ClassLoader，
+它的父类加载器是ApplicationClassLoader，负责加载 $CATALINA_BASE/lib、  $CATALINA_HOME/lib两个目录下所有的.class跟.jar文件。
+而下面虚线框的两个类加载器有必要说明一下，如果在Tomcat5版本，这两个类加载器实例默认与Common ClassLoader实例不同，
+Common ClassLoader为他们的父类加载器。而在Tomcat7中，这两个实例变量也存在，只是catalina.properties配置文件没有对server.loader
+跟share.loader两项进行配置，所以在程序里，这两个类加载器实例就被赋值为CommonClassLoader实例，即一个tomcat实例其实就只有CommonClassLoader实例。</p>
+
+<p><img src="../assets/img/tomcatLoader.png" alt="" /></p>
+
+<p>WebAppClassLoader从名字来看就大概知道主要用于加载Web应用程序的，它的父类加载器是Common ClassLoader，一般有多个WebApp类加载器实例，每个类加载器加载一个Web程序，加载路径为/WebApp/WEB-INF目录。最后，JSP ClassLoader则是负责加载jsp文件编译出来的class，WebApp ClassLoader为它的父类加载器，当Tomcat检测到jsp文件有改动时，会创建一个新的JSP ClassLoader并替换掉当前的JSP ClassLassLoader，对/WebApp/WEB-INF目录下的JSP进行加载，实现热部署功能。</p>
+
+<p>对照这样的一个类加载器结构，看看上面Java Web服务器需要解决的问题是否解决。由于每个Web应用项目都有自己的WebApp ClassLoader，很好地使多个Web应用程序之间互相隔离；并且能有效使Tomcat不受Web应用程序影响；Common ClassLoader的存在使多个Web应用程序能够互相共享类库；而每一个JSP文件对应一个Jsp ClassLoader则可以使Tomcat支持热替换功能。</p>
+
+<p>最后，tomcat使用Spring是如何破坏双亲委托的，如果有10个Web应用程序都是用Spring来组织管理的话，可以把Spring放到Common目录让这些程序共享。Spring要对用户程序的类进行管理，自然要能访问用户程序的类，而用户程序是放在／WebApp/WEB-INF下的，那么被Commom ClassLoader加载的Spring如何访问并不在其加载范围内的用户程序呢？就是通过线程上下文类加载器去破坏双亲委托模型。</p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Java虚拟机双亲委托+Tomcat破坏双亲委托&url=http://localhost:4000/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98+Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98+Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98+Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#academic" class="tag">&#35; academic</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-right.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
