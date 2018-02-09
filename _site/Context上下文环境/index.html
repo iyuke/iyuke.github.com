@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Context上下文环境 - Hello, world! I'm Nathaniel Yu</title>
+
+  <!-- Edit site and author settings in `_config.yml` to make the social details your own -->
+
+    <meta content="Hello, world! I'm Nathaniel Yu" property="og:site_name">
+  
+    <meta content="Context上下文环境" property="og:title">
+  
+  
+    <meta content="article" property="og:type">
+  
+  
+    <meta content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes." property="og:description">
+  
+  
+    <meta content="http://localhost:4000/Context%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83/" property="og:url">
+  
+  
+    <meta content="2017-10-03T18:32:20+08:00" property="article:published_time">
+    <meta content="http://localhost:4000/about/" property="article:author">
+  
+  
+    <meta content="http://localhost:4000/assets/img/how-to-start.jpg" property="og:image">
+  
+  
+    
+  
+  
+    
+    <meta content="academic" property="article:tag">
+    
+  
+
+  
+    <meta name="twitter:card" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:creator" content="@">
+  
+    <meta name="twitter:title" content="Context上下文环境">
+  
+  
+    <meta name="twitter:url" content="http://localhost:4000/Context%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83/">
+  
+  
+    <meta name="twitter:description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+  
+  
+    <meta name="twitter:image:src" content="http://localhost:4000/assets/img/how-to-start.jpg">
+  
+
+	<meta name="description" content="You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes.">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#263959">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#263959">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#263959">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/assets/css/main.css">
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <aside class="sidebar">
+  <header>
+    <div class="about">
+      <div class="cover-author-image">
+        <a href="/"><img src="/assets/img/david-freeman.jpg" alt="Nathaniel Yu"></a>
+      </div>
+      <div class="author-name">Nathaniel Yu</div>
+      <p>I am a web developer focusing on back-end development. Always hungry to keep learning.</p>
+    </div>
+  </header> <!-- End Header -->
+  <footer>
+    <section class="contact">
+      <h3 class="contact-title">Contact me</h3>
+      <ul>
+        
+          <li><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        
+        
+          <li><a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="github"><a href="http://github.com/iyuke" target="_blank"><i class="fa fa-github"></i></a></li>
+        
+        
+          <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+        
+        
+          <li class="email"><a href="mailto:1209862616@qq.com"><i class="fa fa-envelope-o"></i></a></li>
+        
+      </ul>
+    </section> <!-- End Section Contact -->
+    <div class="copyright">
+      <p>2018 &copy; Nathaniel Yu</p>
+    </div>
+  </footer> <!-- End Footer -->
+</aside> <!-- End Sidebar -->
+<div class="content-box clearfix">
+  <article class="article-page">
+  <div class="page-content">
+    
+    <div class="page-cover-image">
+      <img class="page-image" src=/assets/img/how-to-start.jpg alt="Context上下文环境">
+    </div> <!-- End Page Cover Image -->
+    
+    <div class="wrap-content">
+      <header class="header-page">
+        <h1 class="page-title">Context上下文环境</h1>
+        <div class="page-date"><span>2017, Oct 03&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+      </header>
+      <p>Don’t be jealous of others. Because you never know how much you will get in the next second.</p>
+
+<h3 id="web上下文servlet-context">Web上下文（Servlet Context）</h3>
+
+<h3 id="spring-上下文webapplication-context">Spring 上下文（WebApplication Context）</h3>
+
+<h3 id="spring-mvc上下文mlwebapplication-context">Spring MVC上下文（mlWebApplication Context）</h3>
+
+<p>首先，javaee标准规定了，servlet容器需要在应用项目启动时，给应用项目初始化一个ServletContext作为公共环境容器存放公共信息。
+ServletContext中的信息都是由容器提供的。因为Servlet没有main方法，无法独立运行，所以需要通过Servlet容器进行初始化和调用其里面的方法。
+首先说一下我对Servlet启动的理解，Servlet生命周期主要经过了初始化，运行，销毁三个阶段，当一个请求过来时，
+Servlet容器首先会首先查找对应的Servlet是否存在，如果存在，则直接调用里面的service方法，如果不存在，则根据包名加类名找到对应的class文件，
+通过反射的原理进行实例化，并为之生成一个ServletConfig对象作为初始化参数传入，调用service方法时，
+生成HttpServletRequest和HttpServletResponse作为参数传入。</p>
+
+<p>一.首先是Servlet容器，也就是Servlet Context，通过自定义contextListener获取web.xml中配置的参数</p>
+
+<p>1.容器启动时，找到配置文件中的context-param作为键值对放到ServletContext中</p>
+
+<p>2.然后找到listener，容器调用它的contextInitialized(ServletContextEvent event)方法，例如程序中</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"> 
+<span class="sr">/**
+ * 容器启动时初始化数据
+ */</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">InitDataListener</span> <span class="n">implements</span> <span class="no">ServletContextListener</span> <span class="p">{</span>
+
+   <span class="vi">@Override</span>
+   <span class="kp">public</span> <span class="n">void</span> <span class="n">contextInitialized</span><span class="p">(</span><span class="no">ServletContextEvent</span> <span class="n">contextEvent</span><span class="p">)</span> <span class="p">{</span>
+      <span class="sr">//</span> <span class="n">spring</span> <span class="err">上下文</span>
+     <span class="no">ApplicationContext</span> <span class="n">appContext</span> <span class="o">=</span> <span class="no">WebApplicationContextUtils</span><span class="p">.</span>
+                           <span class="nf">getWebApplicationContext</span><span class="p">(</span><span class="n">contextEvent</span><span class="p">.</span><span class="nf">getServletContext</span><span class="p">());</span>
+
+     <span class="no">ResourceService</span> <span class="n">resourceService</span> <span class="o">=</span> 
+                              <span class="p">(</span><span class="no">ResourceService</span><span class="p">)</span> <span class="n">appContext</span><span class="p">.</span><span class="nf">getBean</span><span class="p">(</span><span class="s2">"resourceService"</span><span class="p">);</span>
+     <span class="no">ServletContext</span> <span class="n">servletContext</span> <span class="o">=</span> <span class="n">contextEvent</span><span class="p">.</span><span class="nf">getServletContext</span><span class="p">();</span>
+     <span class="n">servletContext</span><span class="p">.</span><span class="nf">setAttribute</span><span class="p">(</span><span class="no">PmsConstants</span><span class="o">.</span><span class="no">URL_PERMISSION_MAP</span><span class="p">,</span> 
+                           <span class="n">resourceService</span><span class="p">.</span><span class="nf">getSysResourceAndPermissionMapping</span><span class="p">());</span>
+   <span class="p">}</span>
+   <span class="vi">@Override</span>
+   <span class="kp">public</span> <span class="n">void</span> <span class="n">contextDestroyed</span><span class="p">(</span><span class="no">ServletContextEvent</span> <span class="n">sce</span><span class="p">)</span> <span class="p">{</span>
+   <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>二.在上述代码中还有一个Spring 上下文（WebApplication Context），spring为我们提供了实现ServletContextListener接口的上下文初始化监听器：</p>
+
+<h4 id="orgspringframeworkwebcontextcontextloaderlistener">org.springframework.web.context.ContextLoaderListener</h4>
+
+<p><img src="../assets/img/context.png" alt="" /></p>
+
+<p>spring为我们提供的IOC容器，需要我们指定容器的配置文件，然后由该监听器初始化并创建该容器。要求你指定配置文件的地址及文件名称，一定要使用：contextConfigLocation作为参数名称。这个就是我们一开始就会在web.xml中配置的内容，该监听器，默认读取/WEB-INF/下的applicationContext.xml文件。但是通过context-param指定配置文件路径后，便会去你指定的路径下读取对应的配置文件，并进行初始化。
+ServletContext是由Servlet容器初始化的，那Spring的ContextLoaderListener也会进行相应的初始化具体步骤是</p>
+
+<p>1.servlet容器启动，为应用创建一个“全局上下文环境”：ServletContext</p>
+
+<p>2.容器调用web.xml中配置的contextLoaderListener，初始化WebApplicationContext上下文环境（即IOC容器），加载context-param指定的配置文件信息到IOC容器中。WebApplicationContext在ServletContext中以键值对的形式保存。</p>
+
+<p>3.容器初始化web.xml中配置的Servlet（这里具体也就是指的是我们的DispatcherServlet），为其初始化自己的上下文信息ServletContext，并加载其设置的配置信息到该上下文中。将WebApplicationContext（Spring 上下文）设置为它的父容器。大致图片如下</p>
+
+<p>4.此后的所有servlet的初始化都按照3步中方式创建，初始化自己的上下文环境，将WebApplicationContext设置为自己的父上下文环境。</p>
+
+<p>对于作用范围而言，在DispatcherServlet中可以引用由ContextLoaderListener所创建的ApplicationContext中的内容，而反过来不行。 当Spring在执行ApplicationContext的getBean时，如果在自己context中找不到对应的bean，则会在父ApplicationContext中去找。
+所以，web容器初始化webApplicationContext时作为公共的上下文环境，只需要将service、dao等的配置信息在这里加载，而servlet自己的上下文环境信息不需要加载。故，在applicationContext.xml中将@Controller注释的组件排除在外，而在dispatcherServlet加载的配置文件中将@Controller注释的组件加载进来，方便dispatcherServlet进行控制和查找。</p>
+
+<p>最后也就是我后来想的一个问题：既然spring mvc的上下文继承了spring的上下文，那么其实spring mvc把全部包都扫了好像也不会出问题，只不过把继承至父类的bean覆盖掉而已。</p>
+
+<p>答：这种情况下，首先容器启动后获取bean是先从子容器中取，如果springmvc把所有的包都扫描， 那spring管理的bean都不取到，也就是事务等spring框架配置的那些bean都取不到，你拿到的只是普通的bean。事务管理将无效。</p>
+
+      <div class="page-footer">
+        <div class="page-share">
+          <a href="https://twitter.com/intent/tweet?text=Context上下文环境&url=http://localhost:4000/Context%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83/" title="Share on Twitter" rel="nofollow" target="_blank">Twitter</a>
+          <a href="https://facebook.com/sharer.php?u=http://localhost:4000/Context%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83/" title="Share on Facebook" rel="nofollow" target="_blank">Facebook</a>
+          <a href="https://plus.google.com/share?url=http://localhost:4000/Context%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83/" title="Share on Google+" rel="nofollow" target="_blank">Google+</a>
+        </div>
+        <div class="page-tag">
+          
+            <a href="/tags#academic" class="tag">&#35; academic</a>
+          
+        </div>
+      </div>
+      <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//mr-right.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+    </div> <!-- End Wrap Content -->
+  </div> <!-- End Page Content -->
+</article> <!-- End Article Page -->
+
+</div>
+
+  </div>
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', '', 'auto');
+  ga('send', 'pageview');
+</script> <!-- End Analytics -->
+
+</body>
+</html>
